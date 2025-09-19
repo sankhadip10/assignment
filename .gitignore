@@ -1,0 +1,20 @@
+# Environments
+.env
+*.log
+backend/.env
+
+# Python
+backend/venv/
+__pycache__/
+.pytest_cache/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+
+# Cypress
+frontend/cypress/screenshots/
+frontend/cypress/videos/
+
+# OS
+.DS_Store

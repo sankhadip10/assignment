@@ -9,7 +9,7 @@ jest.mock('../AddTodo', () => {
   return function MockAddTodo({ onAdd }: { onAdd: (title: string, description: string) => void }) {
     return (
       <div data-testid="add-todo">
-        <button 
+        <button
           onClick={() => onAdd('Test Todo', 'Test Description')}
           data-testid="mock-add-button"
         >
@@ -22,27 +22,27 @@ jest.mock('../AddTodo', () => {
 
 // Mock Todo component
 jest.mock('../Todo', () => {
-  return function MockTodo({ 
-    todo, 
-    onUpdate, 
-    onDelete 
-  }: { 
-    todo: any, 
-    onUpdate: (todo: any) => void, 
-    onDelete: (id: number) => void 
+  return function MockTodo({
+    todo,
+    onUpdate,
+    onDelete
+  }: {
+    todo: any,
+    onUpdate: (todo: any) => void,
+    onDelete: (id: number) => void
   }) {
     return (
       <div data-testid={`todo-${todo.id}`}>
         <span data-testid={`todo-title-${todo.id}`}>{todo.title}</span>
         <span data-testid={`todo-description-${todo.id}`}>{todo.description}</span>
         <span data-testid={`todo-completed-${todo.id}`}>{todo.completed.toString()}</span>
-        <button 
+        <button
           onClick={() => onUpdate({ ...todo, completed: !todo.completed })}
           data-testid={`update-button-${todo.id}`}
         >
           Update
         </button>
-        <button 
+        <button
           onClick={() => onDelete(todo.id)}
           data-testid={`delete-button-${todo.id}`}
         >
@@ -157,7 +157,7 @@ describe('TodoList Component', () => {
       // Component should still render AddTodo even if fetch fails
       expect(screen.getByTestId('add-todo')).toBeInTheDocument();
 
-      consoleSpy.restore();
+      consoleSpy.mockRestore();
     });
   });
 
@@ -203,10 +203,10 @@ describe('TodoList Component', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ 
-            title: 'Test Todo', 
-            description: 'Test Description', 
-            completed: false 
+          body: JSON.stringify({
+            title: 'Test Todo',
+            description: 'Test Description',
+            completed: false
           }),
         });
       });
@@ -234,7 +234,7 @@ describe('TodoList Component', () => {
       expect(screen.getByTestId('todo-1')).toBeInTheDocument();
       expect(screen.getByTestId('todo-2')).toBeInTheDocument();
 
-      consoleSpy.restore();
+      consoleSpy.mockRestore();
     });
   });
 
@@ -300,7 +300,7 @@ describe('TodoList Component', () => {
       // Todo should remain unchanged
       expect(screen.getByTestId('todo-completed-1')).toHaveTextContent('false');
 
-      consoleSpy.restore();
+      consoleSpy.mockRestore();
     });
   });
 
@@ -362,7 +362,7 @@ describe('TodoList Component', () => {
       // Todo should still be there
       expect(screen.getByTestId('todo-1')).toBeInTheDocument();
 
-      consoleSpy.restore();
+      consoleSpy.mockRestore();
     });
   });
 

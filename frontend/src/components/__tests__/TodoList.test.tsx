@@ -288,7 +288,7 @@ describe('TodoList Component', () => {
       });
     });
 
-    // FIXED: Remove console.error expectation
+    // console.error expectation
     it('handles update todo API error', async () => {
       mockedFetch.mockRejectedValueOnce(new Error('API Error'));
 
@@ -350,7 +350,7 @@ describe('TodoList Component', () => {
       expect(screen.getByTestId('todo-2')).toBeInTheDocument();
     });
 
-    // FIXED: Remove console.error expectation
+    // console.error expectation
     it('handles delete todo API error', async () => {
       mockedFetch.mockRejectedValueOnce(new Error('API Error'));
 

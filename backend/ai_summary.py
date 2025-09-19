@@ -2,9 +2,9 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 from typing import List
-# import models
-from . import models
-
+import models
+# from . import models
+import models
 
 load_dotenv()
 
@@ -25,7 +25,8 @@ def generate_summary(todos: List[models.Todo]) -> str:
     todo_list_str = "\n".join(
         [
             (
-                f"- {t.title} (Due: {t.due_date.strftime('%Y-%m-%d')}, "
+                # f"- {t.title} (Due: {t.due_date.strftime('%Y-%m-%d')}, "
+                f"- {t.title} (Due: {t.due_date.strftime('%Y-%m-%d') if t.due_date else 'No due date'}, "
                 f"Status: {'Completed' if t.completed else 'Pending'})")
             for t in todos
         ]

@@ -4,20 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="012582fc-8795-4d53-ab91-ab40bc881586" name="Changes" comment="" />
+=======
+    <list default="true" id="28df7095-34a4-4133-b06f-291507fdbbdb" name="Changes" comment="" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< Updated upstream
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="32u2F5AzRvEcklGSd8GdyooA7jc" />
+=======
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="32tya6nMmkli2e6Z3ORmKfz8GFZ" />
+>>>>>>> Stashed changes
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< Updated upstream
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -25,6 +37,15 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "//wsl.localhost/Ubuntu-22.04/home/sankha/SDET-assignment-question/SDET-assignment-question",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+>>>>>>> Stashed changes
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -35,6 +56,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< Updated upstream
       <changelist id="012582fc-8795-4d53-ab91-ab40bc881586" name="Changes" comment="" />
       <created>1758256029808</created>
       <option name="number" value="Default" />
@@ -43,6 +65,14 @@
       <workItem from="1758256030953" duration="984000" />
       <workItem from="1758257037529" duration="10286000" />
       <workItem from="1758270649837" duration="276000" />
+=======
+      <changelist id="28df7095-34a4-4133-b06f-291507fdbbdb" name="Changes" comment="" />
+      <created>1758254223305</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1758254223305</updated>
+      <workItem from="1758254226120" duration="1624000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

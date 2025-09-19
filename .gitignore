@@ -5,6 +5,7 @@ backend/.env
 
 # Python
 backend/venv/
+backend/venvneurofin/
 __pycache__/
 .pytest_cache/
 

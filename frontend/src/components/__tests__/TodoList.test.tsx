@@ -1,4 +1,6 @@
+
 import React from 'react';
+import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -9,7 +11,7 @@ jest.mock('../AddTodo', () => {
   return function MockAddTodo({ onAdd }: { onAdd: (title: string, description: string) => void }) {
     return (
       <div data-testid="add-todo">
-        <button
+        <button 
           onClick={() => onAdd('Test Todo', 'Test Description')}
           data-testid="mock-add-button"
         >
@@ -22,27 +24,27 @@ jest.mock('../AddTodo', () => {
 
 // Mock Todo component
 jest.mock('../Todo', () => {
-  return function MockTodo({
-    todo,
-    onUpdate,
-    onDelete
-  }: {
-    todo: any,
-    onUpdate: (todo: any) => void,
-    onDelete: (id: number) => void
+  return function MockTodo({ 
+    todo, 
+    onUpdate, 
+    onDelete 
+  }: { 
+    todo: any, 
+    onUpdate: (todo: any) => void, 
+    onDelete: (id: number) => void 
   }) {
     return (
       <div data-testid={`todo-${todo.id}`}>
         <span data-testid={`todo-title-${todo.id}`}>{todo.title}</span>
         <span data-testid={`todo-description-${todo.id}`}>{todo.description}</span>
         <span data-testid={`todo-completed-${todo.id}`}>{todo.completed.toString()}</span>
-        <button
+        <button 
           onClick={() => onUpdate({ ...todo, completed: !todo.completed })}
           data-testid={`update-button-${todo.id}`}
         >
           Update
         </button>
-        <button
+        <button 
           onClick={() => onDelete(todo.id)}
           data-testid={`delete-button-${todo.id}`}
         >
@@ -141,9 +143,10 @@ describe('TodoList Component', () => {
       expect(screen.getByTestId('add-todo')).toBeInTheDocument();
     });
 
-    // FIXED: Remove expectation of console.error since app doesn't implement error handling
     it('handles fetch error gracefully', async () => {
       mockedFetch.mockRejectedValueOnce(new Error('Network error'));
+
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       await act(async () => {
         render(<TodoList />);
@@ -153,12 +156,10 @@ describe('TodoList Component', () => {
         expect(mockedFetch).toHaveBeenCalledWith('http://localhost:8000/todos/');
       });
 
-      // Component should still render even if fetch fails
+      // Component should still render AddTodo even if fetch fails
       expect(screen.getByTestId('add-todo')).toBeInTheDocument();
-      
-      // Note: The actual TodoList component doesn't implement error handling,
-      // so it won't log errors to console. This is a finding that should be
-      // reported to the development team for improvement.
+      expect(consoleSpy).toHaveBeenCalled();
+      consoleSpy.mockRestore();
     });
   });
 
@@ -193,7 +194,7 @@ describe('TodoList Component', () => {
       } as Response);
 
       const addButton = screen.getByTestId('mock-add-button');
-
+      
       await act(async () => {
         fireEvent.click(addButton);
       });
@@ -204,10 +205,10 @@ describe('TodoList Component', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            title: 'Test Todo',
-            description: 'Test Description',
-            completed: false
+          body: JSON.stringify({ 
+            title: 'Test Todo', 
+            description: 'Test Description', 
+            completed: false 
           }),
         });
       });
@@ -217,29 +218,25 @@ describe('TodoList Component', () => {
       });
     });
 
-    // FIXED: Remove console.error expectation
     it('handles add todo API error', async () => {
       mockedFetch.mockRejectedValueOnce(new Error('API Error'));
 
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       const addButton = screen.getByTestId('mock-add-button');
-
+      
       await act(async () => {
         fireEvent.click(addButton);
       });
 
       await waitFor(() => {
-        expect(mockedFetch).toHaveBeenCalledWith(
-          'http://localhost:8000/todos/',
-          expect.any(Object)
-        );
+        expect(mockedFetch).toHaveBeenCalledWith('http://localhost:8000/todos/', expect.any(Object));
       });
 
-      // Original todos should still be visible
+      // Original todos should still be there
       expect(screen.getByTestId('todo-1')).toBeInTheDocument();
       expect(screen.getByTestId('todo-2')).toBeInTheDocument();
 
-      // The component doesn't implement error logging, so we just verify
-      // that the app continues to function despite the API error
+  consoleSpy.mockRestore();
     });
   });
 
@@ -268,7 +265,7 @@ describe('TodoList Component', () => {
       } as Response);
 
       const updateButton = screen.getByTestId('update-button-1');
-
+      
       await act(async () => {
         fireEvent.click(updateButton);
       });
@@ -288,25 +285,24 @@ describe('TodoList Component', () => {
       });
     });
 
-    // console.error expectation
     it('handles update todo API error', async () => {
       mockedFetch.mockRejectedValueOnce(new Error('API Error'));
 
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       const updateButton = screen.getByTestId('update-button-1');
-
+      
       await act(async () => {
         fireEvent.click(updateButton);
       });
 
       await waitFor(() => {
-        expect(mockedFetch).toHaveBeenCalledWith(
-          'http://localhost:8000/todos/1',
-          expect.any(Object)
-        );
+        expect(mockedFetch).toHaveBeenCalledWith('http://localhost:8000/todos/1', expect.any(Object));
       });
 
-      // Todo should remain unchanged due to API error
+      // Todo should remain unchanged
       expect(screen.getByTestId('todo-completed-1')).toHaveTextContent('false');
+
+  consoleSpy.mockRestore();
     });
   });
 
@@ -332,7 +328,7 @@ describe('TodoList Component', () => {
       } as Response);
 
       const deleteButton = screen.getByTestId('delete-button-1');
-
+      
       await act(async () => {
         fireEvent.click(deleteButton);
       });
@@ -347,28 +343,28 @@ describe('TodoList Component', () => {
         expect(screen.queryByTestId('todo-1')).not.toBeInTheDocument();
       });
 
+      // Todo 2 should still be there
       expect(screen.getByTestId('todo-2')).toBeInTheDocument();
     });
 
-    // console.error expectation
     it('handles delete todo API error', async () => {
       mockedFetch.mockRejectedValueOnce(new Error('API Error'));
 
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       const deleteButton = screen.getByTestId('delete-button-1');
-
+      
       await act(async () => {
         fireEvent.click(deleteButton);
       });
 
       await waitFor(() => {
-        expect(mockedFetch).toHaveBeenCalledWith(
-          'http://localhost:8000/todos/1',
-          expect.any(Object)
-        );
+        expect(mockedFetch).toHaveBeenCalledWith('http://localhost:8000/todos/1', expect.any(Object));
       });
 
-      // Todo should still exist due to API error
+      // Todo should still be there
       expect(screen.getByTestId('todo-1')).toBeInTheDocument();
+
+      consoleSpy.mockRestore();
     });
   });
 
@@ -402,6 +398,7 @@ describe('TodoList Component', () => {
         expect(screen.getByTestId('todo-2')).toBeInTheDocument();
       });
 
+      // Each todo should be uniquely identifiable
       expect(screen.getByTestId('todo-1')).not.toBe(screen.getByTestId('todo-2'));
     });
   });
@@ -419,7 +416,8 @@ describe('TodoList Component', () => {
 
       const addTodo = screen.getByTestId('add-todo');
       expect(addTodo).toBeInTheDocument();
-
+      
+      // Test that the onAdd prop is working
       const addButton = screen.getByTestId('mock-add-button');
       expect(addButton).toBeInTheDocument();
     });
@@ -438,52 +436,10 @@ describe('TodoList Component', () => {
         expect(screen.getByTestId('todo-1')).toBeInTheDocument();
       });
 
+      // Check if Todo components receive correct props
       expect(screen.getByTestId('todo-title-1')).toHaveTextContent(mockTodos[0].title);
       expect(screen.getByTestId('todo-description-1')).toHaveTextContent(mockTodos[0].description);
       expect(screen.getByTestId('todo-completed-1')).toHaveTextContent(mockTodos[0].completed.toString());
-    });
-  });
-
-  describe('Error Handling and Resilience', () => {
-    it('continues functioning despite network errors', async () => {
-      // Initial load fails
-      mockedFetch.mockRejectedValueOnce(new Error('Network error'));
-
-      await act(async () => {
-        render(<TodoList />);
-      });
-
-      // Component should still be interactive
-      expect(screen.getByTestId('add-todo')).toBeInTheDocument();
-      expect(screen.getByTestId('mock-add-button')).toBeInTheDocument();
-    });
-
-    it('handles partial API failures gracefully', async () => {
-      // Initial load succeeds
-      mockedFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockTodos
-      } as Response);
-
-      await act(async () => {
-        render(<TodoList />);
-      });
-
-      await waitFor(() => {
-        expect(screen.getByTestId('todo-1')).toBeInTheDocument();
-      });
-
-      // Subsequent add fails
-      mockedFetch.mockRejectedValueOnce(new Error('Server error'));
-
-      const addButton = screen.getByTestId('mock-add-button');
-      await act(async () => {
-        fireEvent.click(addButton);
-      });
-
-      // Original todos should still be visible
-      expect(screen.getByTestId('todo-1')).toBeInTheDocument();
-      expect(screen.getByTestId('todo-2')).toBeInTheDocument();
     });
   });
 });
